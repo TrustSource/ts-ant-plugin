@@ -1,7 +1,7 @@
 # TrustSource-Ant-Plugin
 TrustSource (https://www.trustsource.io) is a legal resolver and OpenChain compliant workflow engine that allows you to manage your open source dependencies, provide legal compliance and create bill of materials.
 
-The Ant plugin provides TrustSource integration with Apache Ant/Ivy. It uses the [TrustSource Java client] (https://github.com/eacg-gmbh/ecs-java-client/) to transfer Ivy based dependency information to TrustSource-Server via its REST-API. 
+The Ant plugin provides TrustSource integration with Apache Ant/Ivy. It uses the [TrustSource Java client](https://github.com/eacg-gmbh/ecs-java-client/) to transfer Ivy based dependency information to TrustSource-Server via its REST-API. 
 
 There are also several other plugins available to integrate with different build tools.
 
