@@ -21,7 +21,7 @@ Please see the following links for more details on the corresponding package man
 tbc
 
 # How to obtain a TrustSource API Key
-TrustSource provide a free version. You may tregister and select the egar wheel on the upper right side and select API keys from the menu. Then select API-Key
+TrustSource provide a free version. You may tregister and select the egar wheel on the upper right side and select API keys from the menu. Then select API-Key and generate the key. Paste user & API key into your local settings file and run your scan. Be compliant ;-)
 
 # How to obtain Support
 Write us an email to support@trustsurce.io. We will be happy to hear from you. Or visit our knowledgebase at https://support.trustsource.io for more insights and tutorials.
