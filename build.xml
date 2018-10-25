@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:ivy="antlib:org.apache.ivy.ant" name="trustsource-ant-plugin" default="build">
+    <description>Plugin for Ant to scan the Ivy-dependencies for TrustSource</description>
+
+    <property name="src.dir" value="src/main/java"/>
+    <property name="lib.dir" value="lib"/>
+    <property name="build.dir" value="build"/>
+    <property name="classes.dir" value="${build.dir}/classes"/>
+    <property name="build.file" value="${build.dir}/${ant.project.name}.jar"/>
+
+    <path id="lib.path.id">
+        <fileset dir="${lib.dir}"/>
+    </path>
+    <path id="plugin.classpath.id">
+        <fileset dir="${lib.dir}"/>
+        <file file="${build.file}"/>
+    </path>
+
+    <target name="clean" description="Delete all generated files">
+        <delete dir="${build.dir}" failonerror="false"/>
+    </target>
+
+    <target name="resolve-dependencies" description="Resolves Ivy-dependencies">
+        <ivy:retrieve/>
+    </target>
+
+    <target name="compile" depends="resolve-dependencies" description="Compiles the Plugin">
+        <mkdir dir="${classes.dir}"/>
+        <javac srcdir="${src.dir}" destdir="${classes.dir}" classpathref="lib.path.id" includeantruntime="true"/>
+    </target>
+
+    <target name="build" description="JARs the Plugin" depends="compile">
+        <jar destfile="${build.file}" basedir="${classes.dir}"/>
+    </target>
+
+    <target name="use-plugin" description="Use this plugin (for development purpose)" depends="build">
+        <taskdef name="dependency-scan" classname="de.eacg.ecs.plugin.EcsDependencyScanTask" classpathref="plugin.classpath.id"/>
+        <dependency-scan credentials="~/ecs-cred.json" projectname="My Plugin Project" verbose="true" skiptransfer="true"/>
+    </target>
+
+</project>

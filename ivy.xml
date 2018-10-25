@@ -1,0 +1,9 @@
+<ivy-module version="2.0">
+    <info organisation="de.eacg" module="trustsource-ant-plugin" revision="0.1">
+        <license name="Apache License 2.0" url="https://raw.githubusercontent.com/eacg-gmbh/TrustSource-Ant-Plugin/master/LICENSE"/>
+        <description homepage="https://github.com/eacg-gmbh/TrustSource-Ant-Plugin">Plugin for Ant to scan the Ivy-dependencies for TrustSource</description>
+    </info>
+    <dependencies>
+        <dependency org="de.eacg" name="ecs-java-client" rev="0.2.1"/>
+    </dependencies>
+</ivy-module>
