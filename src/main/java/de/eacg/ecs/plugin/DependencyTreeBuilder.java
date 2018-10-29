@@ -6,7 +6,6 @@ import org.apache.ivy.core.module.descriptor.ModuleDescriptor;
 import org.apache.ivy.core.module.id.ModuleRevisionId;
 import org.apache.ivy.core.resolve.IvyNode;
 import org.apache.ivy.core.resolve.IvyNodeCallers;
-import org.apache.tools.ant.Project;
 
 import java.util.*;
 
@@ -37,7 +36,7 @@ public class DependencyTreeBuilder {
      * Initializes the DependencyTreeBuilder (skipDoubleEntries = true, verbose = false).
      *
      * @param projectWrapper Ant-projectWrapper for which the dependency tree should be built
-     * @param level   the dept of the dependency tree (0 = all dependencies)
+     * @param level          the dept of the dependency tree (0 = all dependencies)
      */
     public DependencyTreeBuilder(ProjectWrapper projectWrapper, int level) {
         this(projectWrapper, level, true);
@@ -46,7 +45,7 @@ public class DependencyTreeBuilder {
     /**
      * Initializes the DependencyTreeBuilder (verbose = false).
      *
-     * @param projectWrapper           Ant-projectWrapper for which the dependency tree should be built
+     * @param projectWrapper    Ant-projectWrapper for which the dependency tree should be built
      * @param level             the dept of the dependency tree (0 = all dependencies)
      * @param skipDoubleEntries if true skips dependencies that are already in the tree
      */
@@ -57,7 +56,7 @@ public class DependencyTreeBuilder {
     /**
      * Initializes the DependencyTreeBuilder.
      *
-     * @param projectWrapper           Ant-projectWrapper for which the dependency tree should be built
+     * @param projectWrapper    Ant-projectWrapper for which the dependency tree should be built
      * @param level             the dept of the dependency tree (0 = all dependencies)
      * @param skipDoubleEntries if true skips dependencies that are already in the tree
      * @param verbose           prints out additional information
@@ -115,7 +114,6 @@ public class DependencyTreeBuilder {
 
         builder.setDescription(projectWrapper.getDescription());
         builder.setHomepageUrl(projectWrapper.getIvyModule().getHomePage());
-        // TODO: unable to read repository url
         for (License l : projectWrapper.getIvyModule().getLicenses()) {
             builder.addLicense(l.getName(), l.getUrl());
         }
@@ -147,7 +145,14 @@ public class DependencyTreeBuilder {
                 builder.addVersion(mri.getRevision());
             }
 
-            // TODO: add more information to dependency (licence, etc.)
+            ModuleDescriptor nodeDesc = node.getDescriptor();
+            if (nodeDesc != null) {
+                builder.setDescription(nodeDesc.getDescription());
+                builder.setHomepageUrl(nodeDesc.getHomePage());
+                for (License l : nodeDesc.getLicenses()) {
+                    builder.addLicense(l.getName(), l.getUrl());
+                }
+            }
 
             List<IvyNode> dependencyList = dependencies.get(mri);
             for (Dependency dependency : mapDependencies(dependencyList, currentLevel + 1)) {
