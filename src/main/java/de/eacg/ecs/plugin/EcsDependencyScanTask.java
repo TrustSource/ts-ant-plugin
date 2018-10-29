@@ -24,6 +24,7 @@ public class EcsDependencyScanTask extends Task {
     private static final String PREFIX_PLUGIN_LOG = "trustsourceScan =>";
 
     private PluginConfig config;
+    private ProjectWrapper projectWrapper;
     private RestClient apiClient;
 
     /**
@@ -46,7 +47,7 @@ public class EcsDependencyScanTask extends Task {
 
         validateConfig();
 
-        Dependency rootDependency = new DependencyTreeBuilder(getProject(), 0, true, config.isVerbose()).build();
+        Dependency rootDependency = new DependencyTreeBuilder(getProjectWrapper(), 0, true, config.isVerbose()).build();
 
         if (config.isVerbose()) {
             printDependencies(rootDependency);
@@ -56,9 +57,8 @@ public class EcsDependencyScanTask extends Task {
             log("Skipping transfer");
         } else {
             if (apiClient == null) apiClient = createApiClient();
-            // TODO: fill in project group
-            String projectId = String.format("%s:%s", "PROJECT_GROUP", getProject().getName());
-            Scan scan = new Scan(config.getProjectName(), getProject().getName(), projectId, rootDependency);
+            String projectId = String.format("%s:%s", getProjectWrapper().getOrganisation(), getProjectWrapper().getName());
+            Scan scan = new Scan(config.getProjectName(), getProjectWrapper().getName(), projectId, rootDependency);
             transferScan(scan);
         }
     }
@@ -86,7 +86,6 @@ public class EcsDependencyScanTask extends Task {
             for (int i = 0; i < level; i++) {
                 sb.append(" ");
             }
-            log("");
             System.out.printf("%s%s - %s", sb, d.getName(), d.getKey()).println();
             String version = !d.getVersions().isEmpty() ? d.getVersions().iterator().next() : "";
             System.out.printf("%s     %s, %s, %s", sb, d.getDescription(), version, d.getHomepageUrl()).println();
@@ -99,8 +98,7 @@ public class EcsDependencyScanTask extends Task {
 
     private RestClient createApiClient() {
         JsonProperties apiClientConfig = createApiClientConfig();
-        // TODO build userAgent
-        String userAgent = "${pluginProperties.name}/${pluginProperties.version}";
+        String userAgent = String.format("%s/%s", PluginProperties.NAME, PluginProperties.VERSION);
         return new RestClient(apiClientConfig, userAgent);
     }
 
@@ -140,6 +138,13 @@ public class EcsDependencyScanTask extends Task {
         } catch (Exception e) {
             log("Transfer failed", e, 2);
         }
+    }
+
+    private ProjectWrapper getProjectWrapper() {
+        if (projectWrapper == null) {
+            projectWrapper = new ProjectWrapper(getProject());
+        }
+        return projectWrapper;
     }
 
     /**
