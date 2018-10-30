@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns:ivy="antlib:org.apache.ivy.ant" name="trustsource-ant-plugin" default="build">
+<project xmlns:ivy="antlib:org.apache.ivy.ant" xmlns:trustsource="antlib:de.eacg.ecs.plugin" name="trustsource-ant-plugin" default="build">
     <description>Plugin for Ant to scan the Ivy-dependencies for TrustSource</description>
 
     <property name="src.dir" value="src/main/java"/>
+    <property name="resources.dir" value="src/main/resources"/>
     <property name="lib.dir" value="lib"/>
     <property name="build.dir" value="build"/>
-    <property name="classes.dir" value="${build.dir}/classes"/>
+    <property name="temp.dir" value="${build.dir}/temp"/>
     <property name="build.file" value="${build.dir}/${ant.project.name}.jar"/>
 
     <path id="lib.path.id">
@@ -24,18 +25,33 @@
         <ivy:retrieve/>
     </target>
 
-    <target name="compile" depends="resolve-dependencies" description="Compiles the Plugin">
-        <mkdir dir="${classes.dir}"/>
-        <javac srcdir="${src.dir}" destdir="${classes.dir}" classpathref="lib.path.id" includeantruntime="true"/>
+    <target name="unpack-dependencies" depends="resolve-dependencies" description="Upacks all resolved JARs to build a FatJar">
+        <unjar dest="${temp.dir}">
+            <fileset dir="${lib.dir}" includes="*.jar"/>
+        </unjar>
     </target>
 
-    <target name="build" description="JARs the Plugin" depends="compile">
-        <jar destfile="${build.file}" basedir="${classes.dir}"/>
+    <target name="compile" depends="resolve-dependencies" description="Compiles the Plugin">
+        <mkdir dir="${temp.dir}"/>
+        <javac srcdir="${src.dir}" destdir="${temp.dir}" classpathref="lib.path.id" includeantruntime="true"/>
+    </target>
+
+    <target name="copy-resources" description="Copies the resources from the source dir to the temp dir for packaging">
+        <copy todir="${temp.dir}">
+            <fileset dir="${resources.dir}"/>
+        </copy>
+    </target>
+
+    <target name="build" description="JARs the Plugin" depends="clean,unpack-dependencies,compile,copy-resources">
+        <jar destfile="${build.file}" basedir="${temp.dir}"/>
     </target>
 
     <target name="use-plugin" description="Use this plugin (for development purpose)" depends="build">
-        <taskdef name="dependency-scan" classname="de.eacg.ecs.plugin.EcsDependencyScanTask" classpathref="plugin.classpath.id"/>
-        <dependency-scan credentials="~/ecs-cred.json" projectname="My Plugin Project" verbose="true" skiptransfer="true"/>
+        <path id="plugin.lib.path">
+            <file file="${build.file}"/>
+        </path>
+        <taskdef resource="de/eacg/ecs/plugin/antlib.xml" uri="antlib:de.eacg.ecs.plugin" classpathref="plugin.lib.path"/>
+        <trustsource:dependency-scan credentials="~/ecs-cred.json" projectname="My Plugin Project" verbose="true" skiptransfer="true"/>
     </target>
 
 </project>
