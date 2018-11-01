@@ -6,6 +6,7 @@ import org.apache.ivy.core.module.descriptor.ModuleDescriptor;
 import org.apache.ivy.core.module.id.ModuleRevisionId;
 import org.apache.ivy.core.resolve.IvyNode;
 import org.apache.ivy.core.resolve.IvyNodeCallers;
+import org.apache.tools.ant.BuildException;
 
 import java.util.*;
 
@@ -78,6 +79,10 @@ public class DependencyTreeBuilder {
     public Dependency build() {
         dependencyMemory.clear();
 
+        if (projectWrapper.getIvyReport() == null) {
+            throw new BuildException("The given project doesn't contain an Ivy-report. Please make sure that the Ivy-task \"retrieve\" did run before this plugin is executed.");
+        }
+
         for (IvyNode dependency : projectWrapper.getIvyReport().getDependencies()) {
             populateDependencyTree(dependency);
         }
@@ -85,7 +90,7 @@ public class DependencyTreeBuilder {
         return buildRootDependency();
     }
 
-    protected void populateDependencyTree(IvyNode dependency) {
+    private void populateDependencyTree(IvyNode dependency) {
         registerNodeIfNecessary(dependency.getId());
         for (IvyNodeCallers.Caller caller : dependency.getAllCallers()) {
             addDependency(caller.getModuleRevisionId(), dependency);
@@ -104,7 +109,7 @@ public class DependencyTreeBuilder {
     }
 
 
-    protected Dependency buildRootDependency() {
+    private Dependency buildRootDependency() {
         Dependency.Builder builder = new Dependency.Builder();
         builder.setKey(String.format(DEP_KEY_FORMAT, projectWrapper.getOrganisation(), projectWrapper.getName()));
         builder.setName(projectWrapper.getName());

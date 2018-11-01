@@ -11,6 +11,10 @@ public class PluginConfig {
     private boolean skip = false;
     private boolean skipTransfer = false;
     private boolean verbose = false;
+    private String proxyUrl;
+    private String proxyPort = "8080";
+    private String proxyUser;
+    private String proxyPass;
     private String baseUrl = "https://app.trustsource.io";
     private String apiPath = "/api/v1";
 
@@ -68,6 +72,38 @@ public class PluginConfig {
 
     public void setVerbose(boolean verbose) {
         this.verbose = verbose;
+    }
+
+    public String getProxyUrl() {
+        return proxyUrl;
+    }
+
+    public void setProxyUrl(String proxyUrl) {
+        this.proxyUrl = proxyUrl;
+    }
+
+    public String getProxyPort() {
+        return proxyPort;
+    }
+
+    public void setProxyPort(String proxyPort) {
+        this.proxyPort = proxyPort;
+    }
+
+    public String getProxyUser() {
+        return proxyUser;
+    }
+
+    public void setProxyUser(String proxyUser) {
+        this.proxyUser = proxyUser;
+    }
+
+    public String getProxyPass() {
+        return proxyPass;
+    }
+
+    public void setProxyPass(String proxyPass) {
+        this.proxyPass = proxyPass;
     }
 
     public String getBaseUrl() {

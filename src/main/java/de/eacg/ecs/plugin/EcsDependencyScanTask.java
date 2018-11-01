@@ -71,11 +71,11 @@ public class EcsDependencyScanTask extends Task {
         throw new BuildException("No valid config: There are parameters missing");
     }
 
-    protected void printDependencies(Dependency dependency) {
+    private void printDependencies(Dependency dependency) {
         printDependencies(Arrays.asList(dependency), 0);
     }
 
-    protected void printDependencies(Collection<Dependency> dependencies, int level) {
+    private void printDependencies(Collection<Dependency> dependencies, int level) {
         for (Dependency d : dependencies) {
             StringBuilder sb = new StringBuilder();
             for (int i = 0; i < level; i++) {
@@ -152,6 +152,10 @@ public class EcsDependencyScanTask extends Task {
         super.log(String.format("%s %s", PREFIX_PLUGIN_LOG, msg));
     }
 
+    public void setApiClient(RestClient apiClient) {
+        this.apiClient = apiClient;
+    }
+
     public void setCredentials(String credentials) {
         config.setCredentials(credentials);
     }
@@ -178,6 +182,22 @@ public class EcsDependencyScanTask extends Task {
 
     public void setVerbose(boolean verbose) {
         config.setVerbose(verbose);
+    }
+
+    public void setProxyUrl(String proxyUrl) {
+        config.setProxyUrl(proxyUrl);
+    }
+
+    public void setProxyPort(String proxyPort) {
+        config.setProxyPort(proxyPort);
+    }
+
+    public void setProxyUser(String proxyUser) {
+        config.setProxyUser(proxyUser);
+    }
+
+    public void setProxyPass(String proxyPass) {
+        config.setProxyPass(proxyPass);
     }
 
     public void setBaseUrl(String baseUrl) {
