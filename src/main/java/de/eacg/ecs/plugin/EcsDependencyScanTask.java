@@ -109,6 +109,10 @@ public class EcsDependencyScanTask extends Task {
         if (config.getApiKey() != null) apiConfig.setApiKey(config.getApiKey());
         if (config.getBaseUrl() != null) apiConfig.setBaseUrl(config.getBaseUrl());
         if (config.getApiPath() != null) apiConfig.setApiPath(config.getApiPath());
+        if (config.getProxyUrl() != null) apiConfig.setProxyUrl(config.getProxyUrl());
+        if (config.getProxyPort() != null) apiConfig.setProxyPort(config.getProxyPort());
+        if (config.getProxyUser() != null) apiConfig.setProxyUser(config.getProxyUser());
+        if (config.getProxyPass() != null) apiConfig.setProxyPass(config.getProxyPass());
 
         List<String> missingConfigKeys = apiConfig.validate();
         if (!missingConfigKeys.isEmpty()) {
