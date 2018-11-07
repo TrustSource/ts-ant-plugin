@@ -1,4 +1,4 @@
 <?xml version="1.0"?>
-<antlib xmlns:current="ant:current">
+<antlib>
     <taskdef name="dependency-scan" classname="de.eacg.ecs.plugin.EcsDependencyScanTask"/>
 </antlib>

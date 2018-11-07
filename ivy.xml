@@ -10,6 +10,7 @@
 
     <dependencies>
         <dependency org="de.eacg" name="ecs-java-client" rev="0.2.1" conf="compile->default"/>
+        <dependency org="javax.xml.bind" name="jaxb-api" rev="2.2.11" conf="compile->default"/>
         <dependency org="junit" name="junit" rev="4.12" conf="test->default"/>
         <dependency org="org.mockito" name="mockito-core" rev="1.10.19" conf="test->default"/>
     </dependencies>
