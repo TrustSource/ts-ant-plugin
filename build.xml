@@ -56,15 +56,14 @@
     <target name="test" description="Runs all Unit-tests and Integrationtests" depends="clean,compile">
         <ivy:retrieve conf="test"/>
         <mkdir dir="${build.test-classes.dir}"/>
-        <javac srcdir="${test.src.dir}" destdir="${build.classes.dir}" classpathref="lib.classpath.id"
+        <javac srcdir="${test.src.dir}" destdir="${build.test-classes.dir}" classpathref="lib.classpath.id"
                includeantruntime="true">
             <classpath location="${build.classes.dir}"/>
         </javac>
         <junit haltonfailure="true" printsummary="true" includeantruntime="true">
             <classpath refid="lib.classpath.id"/>
-            <!--<classpath location="${build.test-classes.dir}"/>-->
             <classpath location="${build.classes.dir}"/>
-            <formatter type="plain" usefile="false"/>
+            <classpath location="${build.test-classes.dir}"/>
             <batchtest>
                 <fileset dir="${test.src.dir}">
                     <include name="**/*Test.java"/>
