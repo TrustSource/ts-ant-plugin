@@ -6,16 +6,16 @@ The Ant plugin provides TrustSource integration with Apache Ant/Ivy. It uses the
 There are also several other plugins available to integrate with different build tools.
 
 Please see the following links for more details on the corresponding package manager: 
-* [Maven (Java)](https://github.com/eacg-gmbh/ecs-mvn-plugin)
-* [Gradle (Java)](https://github.com/eacg-gmbh/ecs-gradle-plugin)
-* [Kobalt (Java)](https://github.com/eacg-gmbh/TrustSource-Kobalt-Plugin)
-* [Node (JScript)](https://github.com/eacg-gmbh/ecs-node-client)
-* [Grunt (JScript)](https://github.com/eacg-gmbh/ecs-grunt-plugin) could also be used for gulp ([see here](https://support.trustsource.io/hc/en-us/articles/115003209085-How-to-integrate-TrustSource-with-npm-via-gulp))
-* [PIP (Python)](https://github.com/eacg-gmbh/ecs-pip-plugin)
-* [Bundler (Ruby)](https://github.com/eacg-gmbh/ecs-bundler)
-* [Composer (PHP)](https://github.com/eacg-gmbh/ecs-composer)
-* [SPM (Swift)](https://github.com/eacg-gmbh/ecs-spm-plugin)
-* [nuget (.NET)](https://github.com/eacg-gmbh/ecs-nuget)
+* [Maven (Java)](https://github.com/trustsource/ts-maven-plugin)
+* [Gradle (Java)](https://github.com/trustsource/ts-gradle-plugin)
+* [Kobalt (Java)](https://github.com/trustsource/ts-kobalt-plugin)
+* [Node (JScript)](https://github.com/trustsource/ts-node-client)
+* [Grunt (JScript)](https://github.com/trustsource/ts-grunt-plugin) could also be used for gulp ([see here](https://support.trustsource.io/hc/en-us/articles/115003209085-How-to-integrate-TrustSource-with-npm-via-gulp))
+* [PIP (Python)](https://github.com/trustsource/ts-pip-plugin)
+* [Bundler (Ruby)](https://github.com/trustsource/ts-bundler)
+* [Composer (PHP)](https://github.com/trustsource/ts-composer)
+* [SPM (Swift)](https://github.com/trustsource/ts-spm-plugin)
+* [nuget (.NET)](https://github.com/trustsource/ts-nuget)
 
 # Quick Setup
 It is pretty simple to include the TrustSource scan into your existing Ant projects to scan your Ivy-dependencies. First of all you have to download the latest version of the trustsource-ant-plugin and copy the jar file to your Ant lib directory (ANT_HOME/lib). After that you will be able to declare a new namespace in your build.xml as seen below.
@@ -35,6 +35,8 @@ Now you can define a new target for the dependency-scan task or add it to an exi
 ```
 
 Finally you can execute the task to scan your project and upload the result to TrustSource: ``ant trustsource-scan``
+
+PLEASE NOTE: Starting from v2 of TrustSource, the username will not be required anmore. However, you are not required to remove it from older installations as we will tolerate but not use the parameter anymore.
 
 # Advanced Setup
 ## Use properties file for credentials
@@ -64,7 +66,7 @@ All configuration properties
 
 * *apiKey* (Required, if not specified in credentials file): This key permits the access to TrustSource. Create or retrieve the key from your profile settings of the TrustSource web application.
         
-* *userName* (Required, if not specified in credentials file): Identifies the initiator of the data transfer.
+* *userName* (Required before v2.0, if not specified in credentials file): has been used to identify the initiator of the data transfer.
     
 * *projectName* (Required): For which project is the dependency information transferred.
     
@@ -83,7 +85,7 @@ All configuration properties
 * *proxyPass* (Optional): Password if proxy server requires authentication.
 
 # How to obtain a TrustSource API Key
-TrustSource provide a free version. You may tregister and select the egar wheel on the upper right side and select API keys from the menu. Then select API-Key and generate the key. Paste user & API key into your local settings file and run your scan. Be compliant ;-)
+Every TrustSource account allows you to provide API keys. After login select the gear wheel on the upper right side and select "Scanner & API" from the menu. Then select API-Key and generate the key. Paste it into your local settings file and run your scan. Be compliant ;-)
 
 # How to obtain Support
 Write us an email to support@trustsurce.io. We will be happy to hear from you. Or visit our knowledgebase at https://support.trustsource.io for more insights and tutorials.
