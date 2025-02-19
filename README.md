@@ -3,19 +3,8 @@ TrustSource (https://www.trustsource.io) is a legal resolver and OpenChain compl
 
 The Ant plugin provides TrustSource integration with Apache Ant/Ivy. It uses the [TrustSource Java client](https://github.com/eacg-gmbh/ecs-java-client/) to transfer Ivy based dependency information to TrustSource-Server via its REST-API. 
 
-There are also several other plugins available to integrate with different build tools.
-
-Please see the following links for more details on the corresponding package manager: 
-* [Maven (Java)](https://github.com/trustsource/ts-maven-plugin)
-* [Gradle (Java)](https://github.com/trustsource/ts-gradle-plugin)
-* [Kobalt (Java)](https://github.com/trustsource/ts-kobalt-plugin)
-* [Node (JScript)](https://github.com/trustsource/ts-node-client)
-* [Grunt (JScript)](https://github.com/trustsource/ts-grunt-plugin) could also be used for gulp ([see here](https://support.trustsource.io/hc/en-us/articles/115003209085-How-to-integrate-TrustSource-with-npm-via-gulp))
-* [PIP (Python)](https://github.com/trustsource/ts-pip-plugin)
-* [Bundler (Ruby)](https://github.com/trustsource/ts-bundler)
-* [Composer (PHP)](https://github.com/trustsource/ts-composer)
-* [SPM (Swift)](https://github.com/trustsource/ts-spm-plugin)
-* [nuget (.NET)](https://github.com/trustsource/ts-nuget)
+> [!WARNING]
+> **PLEASE NOTE:** We stopped further development on this client. You may still use it, but it will only receive bug fixes. Starting Q4/2024 we decided to focus all efforts on developing [ts-scan](https://github.com/trustsource/ts-scan), which also covers all capabilities of this solution. 
 
 # Quick Setup
 It is pretty simple to include the TrustSource scan into your existing Ant projects to scan your Ivy-dependencies. First of all you have to download the latest version of the trustsource-ant-plugin and copy the jar file to your Ant lib directory (ANT_HOME/lib). After that you will be able to declare a new namespace in your build.xml as seen below.
